@@ -1,0 +1,12 @@
+
+
+.inputBlue:active, .inputBlue:focus {
+  outline: blue;
+  border: 1px solid blue;
+}
+.inputRed:active, .inputRed:focus{
+  border: 1px solid red;
+  outline: red;
+}
+
+

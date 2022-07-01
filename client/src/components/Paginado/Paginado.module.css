@@ -1,0 +1,24 @@
+
+.conteiner{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
+  flex-direction: column;
+}
+
+.conteinerBtn{
+    display: flex;
+    justify-content: space-around;
+  
+}
+
+.conteinerRecipe{
+margin-top: 4%;
+display: flex;
+flex-direction: row;
+justify-content: space-around;
+flex-wrap: wrap;
+
+  /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); */
+}

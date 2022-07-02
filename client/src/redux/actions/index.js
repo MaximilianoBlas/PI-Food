@@ -119,18 +119,29 @@ export const filterOff = () => {
   };
 };
 
+
+
+
+
 export const getRecipeDetail = (id) => {
-  return function (dispatch) {
-    return fetch(`http://localhost:3001/recipes/${id}`)
-    .then(res => res.json())
-    .then(data => {
-      dispatch(
-        {
-          type: DETAIL_RECIPE,
-          payload: data
-        })
-    })
-  }
+
+  return async (dispatch) => {
+    const res = await axios.get(`http://localhost:3001/recipes/${id}`);
+    dispatch({
+      type: DETAIL_RECIPE,
+      payload: res.data,
+    });
+  };
+  // return function (dispatch) {
+  //   return fetch(`http://localhost:3001/recipes/${id}`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       dispatch({
+  //         type: DETAIL_RECIPE,
+  //         payload: data,
+  //       });
+  //     });
+  // };
 }
 
 export const recipeDetailOff = () => {
@@ -160,34 +171,3 @@ export const createRecipe = (input) => {
     })
   }
 }
-
-// export const getAllProducts = () => {
-//   return async function (dispatch) {
-//     const response = await axios.get("http://localhost:3001/products");
-//     dispatch({ type: GET_ALL_PRODUCTS, payload: response.data });
-//   };
-// };
-
-// export const getProductDetail = (id) => {
-//   return async (dispatch) => {
-//     let response = await axios.get(`http://localhost:3001/products/${id}`);
-//     dispatch({ type: GET_PRODUCT_DETAIL, payload: response.data });
-
-//   };
-// };
-
-// export const createProduct = function (payload) {
-//   payload.id = idProduct;
-//   idProduct = idProduct + 1;
-//   return {
-//     type: CREATE_PRODUCT,
-//     payload,
-//   };
-// };
-
-// export const deleteProduct = function (payload) {
-//   return {
-//     type: DELETE_PRODUCT,
-//     payload,
-//   };
-// };

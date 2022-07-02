@@ -21,7 +21,7 @@ export const getAllRecipe = (name) => {
     if (currentName) {
       return async (dispatch) => {
         const res = await axios.get(
-          `http://localhost:3001/recipes?name=${currentName}`
+          `/recipes?name=${currentName}`
         );
         dispatch({
           type: GET_ALL_RECIPE,
@@ -44,7 +44,7 @@ export const getAllRecipe = (name) => {
     
     console.log("actions if");
     return async (dispatch) => {
-      const res = await axios.get("http://localhost:3001/recipes");
+      const res = await axios.get("/recipes");
       dispatch({
         type: GET_ALL_RECIPE,
         payload: res.data,
@@ -54,7 +54,7 @@ export const getAllRecipe = (name) => {
     currentName = name;
     console.log("actions else");
     return async (dispatch) => {
-      const res = await axios.get(`http://localhost:3001/recipes?name=${name}`);
+      const res = await axios.get(`/recipes?name=${name}`);
       dispatch({
         type: GET_ALL_RECIPE,
 
@@ -126,14 +126,14 @@ export const filterOff = () => {
 export const getRecipeDetail = (id) => {
 
   return async (dispatch) => {
-    const res = await axios.get(`http://localhost:3001/recipes/${id}`);
+    const res = await axios.get(`/recipes/${id}`);
     dispatch({
       type: DETAIL_RECIPE,
       payload: res.data,
     });
   };
   // return function (dispatch) {
-  //   return fetch(`http://localhost:3001/recipes/${id}`)
+  //   return fetch(`/recipes/${id}`)
   //     .then((res) => res.json())
   //     .then((data) => {
   //       dispatch({
@@ -152,7 +152,7 @@ export const recipeDetailOff = () => {
 
 export const createDiets = (input) => {
   return async (dispatch) => {
-    const res = await axios.post("http://localhost:3001/diets");
+    const res = await axios.post("/diets");
     console.log(res.data);
     dispatch({
       type: CREATE_DIETS,
@@ -163,7 +163,7 @@ export const createDiets = (input) => {
 
 export const createRecipe = (input) => {
   return async (dispatch) => {
-    const res = await axios.post("http://localhost:3001/recipes", input)
+    const res = await axios.post("/recipes", input)
     console.log(res.data)
     dispatch({
       type: CREATE_RECIPE,

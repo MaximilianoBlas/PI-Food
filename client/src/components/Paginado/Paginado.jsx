@@ -185,9 +185,7 @@ if (currentPage -1 <= recipes.length / recipesPerPage && currentPage > 0) {
             <img
               src="https://i.gifer.com/ZkiR.gif"
               alt=""
-              
             />
-
           </div>
         )}
         {/* {newRecipes &&

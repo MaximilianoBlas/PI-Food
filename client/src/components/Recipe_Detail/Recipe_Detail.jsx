@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getRecipeDetail,recipeDetailOff } from "../../redux/actions";
-import loading from "../../images/Loading.gif";
+import loading from "../../images/LoadingGoku.gif";
 
 
 const Recipe_Detail = (props) => {
@@ -58,7 +58,7 @@ console.log(detail);
           <h1>{detail.name}</h1>
 
           <img
-            src={detail.image?detail.image:"http://25.media.tumblr.com/tumblr_m5udbeTKzb1r72ht7o3_500.gif"}
+            src={detail.image?detail.image:loading}
             alt= {loading}
             style={width}
           />

@@ -143,6 +143,7 @@ console.log(error);
               name="health_score"
               onChange={(e) => inputChange(e)}
               className={error.health_score ? s.inputRed : s.inputBlue}
+              placeholder="Number between 0 and 100"
             />
             {error.health_score && <p style={textRed}>{error.health_score}</p>}
           </div>
@@ -162,7 +163,7 @@ console.log(error);
           </div>
           <div style={div}>
             <select name="filter" id="filter" onChange={(e) => dietsSelect(e)}>
-              <option value="filter">Filter by diet</option>
+              <option value="filter">Select type of diet</option>
               <option value="gluten free">Gluten Free</option>
               <option value="dairy free">Dairy Free</option>
               <option value="ketogenic">Ketogenic</option>

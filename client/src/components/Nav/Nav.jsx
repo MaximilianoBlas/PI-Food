@@ -55,6 +55,9 @@ const Nav = (props) => {
       dispatch(orderByHealthScoreFalling());
     }
   }
+  function reload () {
+    dispatch(getAllRecipe());
+  }
 
   return (
     <div>
@@ -91,9 +94,9 @@ const Nav = (props) => {
         <option value="healthScoreFalling">Health Score Falling</option>
       </select>
 
-      {/* <div>
+      <div>
         <button onClick={(e) => reload(e)}>Reload </button>
-      </div> */}
+      </div>
     </div>
   );
 };

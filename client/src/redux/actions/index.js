@@ -44,7 +44,9 @@ export const getAllRecipe = (name) => {
     
     console.log("actions if");
     return async (dispatch) => {
+      console.log("actions if");
       const res = await axios.get("/recipes");
+      console.log("actions if");
       dispatch({
         type: GET_ALL_RECIPE,
         payload: res.data,

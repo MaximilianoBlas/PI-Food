@@ -103,7 +103,7 @@ const notSearched = [
   },
 ];
   if (req.query.name) {
-    let recipeApi, newRecipe
+    let recipeApi, newRecipe = [], recipeBD
     try { 
       recipeApi = await axios.get( 
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.query.name}&addRecipeInformation=true&number=100`
@@ -152,8 +152,8 @@ try {
     let arr=[]
 
 
-    let recipeBD = recipeBd.map((recipe) => {
-      let arr = [];
+    recipeBD = recipeBd.map((recipe) => {
+      let arr = []; 
       return {
         id: recipe.dataValues.id,
         name: recipe.dataValues.name, 
@@ -169,16 +169,18 @@ try {
     });
 
   }
-
+console.log(recipeBD);
+console.log(newRecipe);
+console.log(recipeApi);
    if(!recipeBd.length){
     console.log(1);
-    if (recipeApi.data.results.length) {
+    if (newRecipe.length) { 
       console.log(2);
      return res.send(newRecipe)  
         } 
         return res.send(notSearched);
     }
-       if (!recipeApi.data.results.length) {
+       if (!newRecipe.length) {
         console.log(3);
          if (recipeBd.length) {
           console.log(4);
@@ -187,7 +189,6 @@ try {
         console.log(5);
          return res.send("No se encontro receta con ese nombre");
        }
-      //  recipeBd.push(obj)
       console.log(6);
      let recip = [ ...recipeBD, ...newRecipe]
   return res.send(recip);
@@ -248,8 +249,8 @@ try {
               if (!arr.includes(diet.dataValues.name)) {
                 arr.push(diet.dataValues.name)
               return diet.dataValues.name
-              }
-            })
+              } 
+            }) 
           };
         })
         console.log(recipeBD);
@@ -337,5 +338,20 @@ router.post("/", async (req,res, next) =>{
   
 
  return  res.send("Receta agregada")
+})
+
+
+router.delete("/:id", async (req,res,next)=>{
+  const {id} = req.params
+  try {
+    Recipe.destroy({
+      where:{
+        id
+      }
+    })
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+  res.send("Delete recipe")
 })
 module.exports = router; 

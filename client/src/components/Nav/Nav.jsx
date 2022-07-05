@@ -74,17 +74,16 @@ const Nav = (props) => {
     }
   }
   function reload () {
-    getAllRecipeOff();
+      dispatch(getAllRecipe("reload"))
+      setTimeout(() => {
+     dispatch(filterOff());
+     dispatch(orderOff());
+     document.getElementById("filter").value = "filter";
+     document.getElementById("order").value = "order";
+     document.getElementById("search").value = "";
+       dispatch(setCurrentPage(1));
+     }, 2000);
 
-     dispatch(getAllRecipe("reload"));
-    dispatch(filterOff());
-    dispatch(orderOff());
-    document.getElementById("filter").value = "filter";
-    document.getElementById("order").value = "order";
-    document.getElementById("search").value = "";
-    setTimeout(() => {
-      dispatch(setCurrentPage(1));
-    }, 2000);
   }
 
   return (

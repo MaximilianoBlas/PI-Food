@@ -66,8 +66,10 @@ export const getAllRecipe = (name) => {
     }else{
       currentName = name;
       console.log("actions else");
+      console.log(name);
       return async (dispatch) => {
         const res = await axios.get(`/recipes?name=${name}`);
+        console.log(typeof res.data === "object");
         dispatch({
           type: GET_ALL_RECIPE,
   

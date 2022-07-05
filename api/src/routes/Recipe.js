@@ -2,10 +2,10 @@ const { Router, query } = require("express");
 const {Recipe, Diet} = require("../db")
 const axios =require("axios")
 const { Op } = require("sequelize"); 
+ 
+const router = Router();  
 
-const router = Router();
-
-
+ 
 router.get("/:id", async (req, res,next) => {
   console.log(req.params.id)
   const {id} = req.params
@@ -88,41 +88,40 @@ try {
   return res.send("Numero de id no valido");
 }
   }
-  
+   
 
 
-}); 
+});   
  
-router.get("/", async (req, res) =>{
+router.get("/", async (req, res,next) =>{
 const notSearched = [
   {
-    // id: 1,
     name: "Recipe not found ",
-    image: req.query.image,
     dish_summary: "Recipe not found", 
-    // health_score: "5",
-    // Step_by_Step: "Pollo a la plancha",
-    // diets: "Pollo a la plancha",
+    image: "notFound",
+    diets: [],
   },
 ];
   if (req.query.name) {
-    
-  const recipeApi = await axios.get(
-    `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.query.name}&addRecipeInformation=true&number=100`
-  );
-  // console.log(recipeApi.data);
-  const newRecipe = recipeApi.data.results.map((recipe) => { 
-    return {
-      id: recipe.id, 
-      name: recipe.title,
-      image: recipe.image,
-      // dish_summary: recipe.summary,
-      health_score: recipe.healthScore,
-      // Step_by_Step: recipe.instructions,
-      diets: recipe.diets,
-    };
-  })
- 
+    let recipeApi, newRecipe
+    try { 
+      recipeApi = await axios.get( 
+        `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.query.name}&addRecipeInformation=true&number=100`
+      );
+      // console.log(recipeApi.data);
+       newRecipe = recipeApi.data.results.map((recipe) => { 
+        return {
+          id: recipe.id, 
+          name: recipe.title,
+          image: recipe.image,
+          health_score: recipe.healthScore,
+          diets: recipe.diets,
+        };
+      })
+    } catch (error) {
+      console.log(error.message);
+    }
+
  
 try {
   console.log(0);
@@ -153,81 +152,94 @@ try {
     let arr=[]
 
 
-    let diets = recipeBd[0].dataValues.diets.map((diet) => {
-      if (!arr.includes(diet.dataValues.name)) {
-        arr.push(diet.dataValues.name);
-        return diet.dataValues.name;
-      }
+    let recipeBD = recipeBd.map((recipe) => {
+      let arr = [];
+      return {
+        id: recipe.dataValues.id,
+        name: recipe.dataValues.name, 
+        image: recipe.dataValues.image,
+        health_score: recipe.dataValues.health_score,
+        diets: recipe.dataValues.diets.map((diet) => {
+          if (!arr.includes(diet.dataValues.name)) {
+            arr.push(diet.dataValues.name);
+            return diet.dataValues.name;
+          }
+        }),
+      };
     });
 
 
-    // let diets = recipeBd[0].dataValues.diets.map((diet) => {return diet.dataValues.name})
-    let id = recipeBd[0].dataValues.id
-    let name = recipeBd[0].dataValues.name
-    let image = recipeBd[0].dataValues.image
-    let health_score = recipeBd[0].dataValues.health_score
-    console.log(diets, id, name, image, health_score);
-    let objBd = {
-      id,
-      name,
-      image,
-      health_score,
-      diets,
-    }
+  //   let diets = recipeBd[0].dataValues.diets.map((diet) => {
+  //     if (!arr.includes(diet.dataValues.name)) {
+  //       arr.push(diet.dataValues.name);
+  //       return diet.dataValues.name;
+  //     }
+  //   });
+  //   let id = recipeBd[0].dataValues.id
+  //   let name = recipeBd[0].dataValues.name
+  //   let image = recipeBd[0].dataValues.image
+  //   let health_score = recipeBd[0].dataValues.health_score
+  //   console.log(diets, id, name, image, health_score);
+  //   let objBd = {
+  //     id,
+  //     name,
+  //     image,
+  //     health_score,
+  //     diets,
+  //   }
     
-     arrBd = [objBd]
+  //    arrBd = [objBd]
   }
 
-// console.log(arrBd);
-  
-  // console.log(recipeBd[0].dataValues.diets[0].dataValues.name);
-  // console.log(recipeBd[0].dataValues.diets[1].dataValues.name);
-  console.log("------------------------------------------");
-  // console.log(recipeBd);
    if(!recipeBd.length){
     console.log(1);
     if (recipeApi.data.results.length) {
       console.log(2);
-     return res.send(newRecipe) 
+     return res.send(newRecipe)  
         } 
-        return res.send("No se encontro receta con ese nombre");
+        return res.send(notSearched);
     }
        if (!recipeApi.data.results.length) {
         console.log(3);
          if (recipeBd.length) {
           console.log(4);
-           return res.send(arrBd); 
+           return res.send(recipeBD); 
          }
         console.log(5);
          return res.send("No se encontro receta con ese nombre");
        }
       //  recipeBd.push(obj)
       console.log(6);
-     let recip = [ ...arrBd, ...newRecipe]
+     let recip = [ ...recipeBD, ...newRecipe]
   return res.send(recip);
 } catch (error) {
   console.log(7);
-  return res.send(error.mesage)
+  return res.send(error.message)
 }
-  } else{
+} else{
+  let newRecipe = []
+  try {
     const recipeApi = await axios.get(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&addRecipeInformation=true&number=100`
-    );
-    // console.log(recipeApi.data);
-    const newRecipe = recipeApi.data.results.map((recipe) => {
-      return {
-        id: recipe.id,
-        name: recipe.title,
-        image: recipe.image, 
-        // dish_summary: recipe.summary,
-        health_score: recipe.healthScore,
-        // Step_by_Step: recipe.instructions,
-        diets: recipe.diets, 
-      };
-    });
+      );
+      // console.log(recipeApi.data);
+      newRecipe = recipeApi.data.results.map((recipe) => { 
+        return { 
+          id: recipe.id,
+          name: recipe.title,
+          image: recipe.image, 
+          health_score: recipe.healthScore,
+          diets: recipe.diets, 
+        }; 
+      });
+ 
+  } catch (error) {
+    console.log("Error atrapado por catch de API");
+    console.log(error.message);
+  }
     // res.send(newRecipe);
     try {
-      const recipeBd = await Recipe.findAll({
+    const recipeBd = await Recipe.findAll({
         attributes: {
           exclude: ["dish_summary", "step_by_Step"],
         },
@@ -241,8 +253,8 @@ try {
         ],
       });
   
-      console.log("pasa en findAll");
-      console.log(recipeBd);
+      console.log("pasa en findAll"); 
+      // console.log(recipeBd); 
       let arrBd = [];
       if (recipeBd.length) {
         console.log("pasa en if");
@@ -266,32 +278,44 @@ try {
 
 
 
-        let diets = recipeBd[0].dataValues.diets.map((diet) => {
-          return diet.dataValues.name;
-        });
-        let id = recipeBd[0].dataValues.id;
-        let name = recipeBd[0].dataValues.name;
-        let image = recipeBd[0].dataValues.image;
-        let health_score = recipeBd[0].dataValues.health_score;
-        console.log(diets, id, name, image, health_score);
-        let objBd = {
-          id,
-          name,
-          image,
-          health_score,
-          diets,
-        };
-        arrBd = [objBd];
+        // let diets = recipeBd[0].dataValues.diets.map((diet) => {
+        //   return diet.dataValues.name;
+        // });
+        // let id = recipeBd[0].dataValues.id;
+        // let name = recipeBd[0].dataValues.name;
+        // let image = recipeBd[0].dataValues.image;
+        // let health_score = recipeBd[0].dataValues.health_score;
+        // console.log(diets, id, name, image, health_score);
+        // let objBd = {
+        //   id,
+        //   name,
+        //   image,
+        //   health_score,
+        //   diets,
+        // };
+        // arrBd = [objBd];
         let recipe = [...recipeBD, ...newRecipe];
-        res.send(recipe)
-      } else {
-        res.send(newRecipe);
+        if (!recipeBD.length&& !newRecipe.length) {
+          return res.send(notSearched);
+        }
+          
+      
+        return res.send(recipe)
+      } else { 
+        console.log("else de findAll");
+        if(!newRecipe.length){
+          console.log("condicional Db no tiene nada yapi tampoco");
+          return res.send(notSearched);
+        }else{
+
+          return  res.send(newRecipe); 
+        }
       }
       
     } catch (error) {
       console.log("error en busca todo");
-      console.log(error.mesage);
-      res.send(error.mesage)
+      console.log(error.message);
+      res.send(notSearched);
     }
 
   }

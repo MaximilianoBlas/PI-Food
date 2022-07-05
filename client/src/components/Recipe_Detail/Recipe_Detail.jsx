@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getRecipeDetail,recipeDetailOff } from "../../redux/actions";
+import { getRecipeDetail,recipeDetailOff, setChangePage } from "../../redux/actions";
 import loading from "../../images/LoadingGoku.gif";
 
 
@@ -14,6 +14,7 @@ useEffect(() => {
   dispatch(getRecipeDetail(props.match.params.id));
   return () => {
     dispatch(recipeDetailOff(props.match.params.id));
+    dispatch(setChangePage(false));
   }
 }, []);
 
@@ -58,26 +59,28 @@ console.log(detail);
           <h1>{detail.name}</h1>
 
           <img
-            src={detail.image?detail.image:loading}
-            alt= {loading}
+            src={detail.image ? detail.image : loading}
+            alt={loading}
             style={width}
           />
           {isNaN(props.match.params.id) ? (
             <div>
               <h3>
-                {detail.diets
-                  ? `Diets: ${detail.diets.join(" ")} Health Score:  ${
-                      detail.health_score
-                    }`
-                  : `Health Score:  ${detail.health_score}`}
-                {/* Diets: {detail.diets.join(" ")} Health Score:{" "}
-                {detail.health_score} */}
+                {detail.diets ? `Diets: ${detail.diets.join(" ")}` : ""}
+                {detail.health_score
+                  ? `Health Score:  ${detail.health_score}`
+                  : ""}
               </h3>
               <div style={text}>
                 <h3>Dish summary: {detail.dish_summary}</h3>
               </div>
               <div>
-                <h3>Step by step: {detail.step_by_step}</h3>
+                {console.log(detail.step_by_step)}
+                <h3>
+                  {detail.step_by_step
+                    ? `Step by step: ${detail.step_by_step}`
+                    : ""}
+                </h3>
               </div>
             </div>
           ) : (

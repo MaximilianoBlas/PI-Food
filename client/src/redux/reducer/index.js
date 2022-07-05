@@ -1,15 +1,20 @@
-import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, DETAIL_RECIPE_OFF,CREATE_DIETS } from "../actions/index";
+import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, DETAIL_RECIPE_OFF,CREATE_DIETS, GET_ALL_RECIPE_OFF,SET_CURRENT_PAGE, DETAIL_STATE, CHANGE_PAGE, changePage } from "../actions/index";
 
 
 
 const initialState = {
   recipe: [],
   filter:[],
+  filterString:"filter",
   orderBy: [],
+  orderString:"order",
   orderwithfilter: [],
   filterBoolean: false,
   order: "off",
   recipeDetail: [],
+  changePage: true,
+  currentPage: 1,
+  iComeFromDetail: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -21,13 +26,24 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         recipe: action.payload,
         orderBy: [...action.payload],
+        currentPage: state.changePage?1:state.currentPage,
+        
+        
       };
+      case GET_ALL_RECIPE_OFF:
+      return {
+        ...state,
+        recipe: [],
+        orderBy: [],
+        foundRecipe: "defect"
+      }
 
     case FILTER_RECIPE:
       console.log("reducer show");
 
       return {
         ...state,
+        filterString: action.payload,
         filter: state.recipe.filter((recipe) =>
           recipe.diets.includes(action.payload)
         ),
@@ -47,6 +63,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         order: "titleUpward",
+        orderString: "titleUpward",
         orderBy:
       state.filterBoolean === false?
              state.orderBy.sort((a, b) => {
@@ -73,6 +90,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         order: "titleFalling",
+        orderString: "titleFalling",
         orderBy:
           state.filterBoolean === false
             ? state.orderBy.sort((a, b) => {
@@ -100,6 +118,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         order: "healthScoreUpward",
+        orderString: "healthScoreUpward",
         orderBy:
           state.filterBoolean === false
             ? state.orderBy.sort((a, b) => {
@@ -127,6 +146,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         order: "healthScoreFalling",
+        orderString: "healthScoreFalling",
         orderBy:
           state.filterBoolean === false
             ? state.orderBy.sort((a, b) => {
@@ -153,6 +173,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         order: "off",
+        orderString: "order",
       };
     case DETAIL_RECIPE:
       console.log("reducer detail");
@@ -163,10 +184,26 @@ const rootReducer = (state = initialState, action) => {
     case DETAIL_RECIPE_OFF:
       return {
         ...state,
-        recipeDetail: [],}
+        recipeDetail: [],
+        iComeFromDetail: true}
     case CREATE_DIETS:
       return {
         ...state,}
+        case SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload,}
+        case DETAIL_STATE:
+          console.log("reducer detail state");
+          console.log(action.payload);
+      return {
+        ...state,
+        iComeFromDetail: action.payload,}
+        case CHANGE_PAGE:
+          console.log(action.payload);
+      return {
+        ...state,
+        changePage: action.payload,}
     default:
       return state;
   };

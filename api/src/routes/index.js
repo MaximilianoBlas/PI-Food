@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const  Recipe = require("./Recipe")
-const Diet = require("./Diet");
+const Diet = require("./Diet"); 
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');

@@ -13,7 +13,10 @@ export const DETAIL_RECIPE = "DETAIL_RECIPE";
 export const DETAIL_RECIPE_OFF = "DETAIL_RECIPE_OFF";
 export const CREATE_RECIPE = "CREATE_RECIPE";
 export const CREATE_DIETS = "CREATE_DIETS";
-
+export const GET_ALL_RECIPE_OFF = "GET_ALL_RECIPE_OFF";
+export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+export const DETAIL_STATE = "DETAIL_STATE";
+export const CHANGE_PAGE = "CHANGE_PAGE";
 
 let currentName
 export const getAllRecipe = (name) => {
@@ -41,38 +44,54 @@ export const getAllRecipe = (name) => {
       };
     }
       
-    
-    console.log("actions if");
     return async (dispatch) => {
-      console.log("actions if");
       const res = await axios.get("/recipes");
-      console.log("actions if");
       dispatch({
         type: GET_ALL_RECIPE,
         payload: res.data,
+        name:"defect"
       });
     };
   }else{
-    currentName = name;
-    console.log("actions else");
-    return async (dispatch) => {
-      const res = await axios.get(`/recipes?name=${name}`);
-      dispatch({
-        type: GET_ALL_RECIPE,
-
-        payload: typeof res.data === "object"
-          ? res.data
-          : [
-              {
-                name: "Recipe not found",
-                image: notFound,
-                dish_summary: "Recipe not found",
-                diets: []
-              },
-            ],
-      });
-    };
+    if (name === "reload") {
+      currentName = undefined
+      return async (dispatch) => {
+        const res = await axios.get("/recipes");
+        dispatch({
+          type: GET_ALL_RECIPE,
+          payload: res.data,
+          name: "defect"
+        });
+      };
+    }else{
+      currentName = name;
+      console.log("actions else");
+      return async (dispatch) => {
+        const res = await axios.get(`/recipes?name=${name}`);
+        dispatch({
+          type: GET_ALL_RECIPE,
+  
+          payload: typeof res.data === "object"
+            ? res.data
+            : [
+                {
+                  name: "Recipe not found",
+                  image: notFound,
+                  dish_summary: "Recipe not found",
+                  diets: []
+                },
+              ],
+              name
+        });
+      };
+    }
   }
+}
+
+export const getAllRecipeOff = () =>{
+  return {
+    type: GET_ALL_RECIPE_OFF,
+  };
 }
 
 export const filterRecipe = (payload) => {
@@ -172,4 +191,28 @@ export const createRecipe = (input) => {
       payload: res.data,
     })
   }
+}
+
+export const setCurrentPage = (page) => {
+  return {
+    type: SET_CURRENT_PAGE,
+    payload: page,
+  };
+}
+
+export const detailState = (state) => {
+  console.log("action detail state");
+  console.log(state);
+  return {
+    type: DETAIL_STATE,
+    payload: state,
+  };
+}
+
+export const setChangePage = (boolean) => {
+  console.log("action change page");
+  return {
+    type: CHANGE_PAGE,
+    payload: boolean,
+  };
 }

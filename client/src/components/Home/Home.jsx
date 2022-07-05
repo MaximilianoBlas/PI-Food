@@ -1,10 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-// import mainImage from "../../img-cp2/main-image-cp2.jpg";
-// // import { getAllProducts } from "../../redux/actions/index";
-// import ProductCard from "../ProductCard/ProductCard";
+import React, { Component, useEffect } from "react";
+import { connect, useDispatch,useSelector } from "react-redux";
 import FoodCard from "../Food_Card/Food_Card";
-import { getAllRecipe } from "../../redux/actions/index";
+import { getAllRecipe,setChangePage } from "../../redux/actions/index";
 import Nav from "../Nav/Nav";
 import Paginado from "../Paginado/Paginado";
 
@@ -25,12 +22,18 @@ const navbar ={
 }
 
 
-export class Home extends Component {
-  componentDidMount() {
-    this.props.getAllRecipe();
-  }
+ export default function Home(props) {
+ const dispatch = useDispatch();
 
-  render() {
+
+  useEffect(()=>{
+    dispatch(getAllRecipe());
+
+  },[dispatch]);
+
+
+  
+
     return (
       <div>
         <div style={navbar}>
@@ -57,20 +60,29 @@ export class Home extends Component {
             ))}
         </h1> */}
       </div>
-    );
-  }
-}
 
-export const mapStateToProps = function (state) {
-  return {
-    recipe: state.recipe,
-  };
-};
 
-export const mapDispatchToProps = function (dispatch) {
-  return {
-    getAllRecipe: () => dispatch(getAllRecipe()),
-  };
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+
+    )
+
+    }
+    
+
+      
+
+// export const mapStateToProps = function (state) {
+//   return {
+//     recipe: state.recipe,
+//     changePage: state.changePage,
+//   };
+// };
+
+// export const mapDispatchToProps = function (dispatch) {
+//   return {
+//     getAllRecipe: () => dispatch(getAllRecipe()),
+//     setChangePage: (boolean) => dispatch(setChangePage(boolean)),
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -33,13 +33,13 @@ const div = {
   justifyContent: "center",
   margin: "10px",
 }
-const title = {
-  display: "flex",
-  justifyContent: "center",
-  alingItems: "center",
-  backgroundColor: "#EEC392",
-  width: "100%",
-};
+// const title = {
+//   display: "flex",
+//   justifyContent: "center",
+//   alingItems: "center",
+//   backgroundColor: "#EEC392",
+//   width: "100%",
+// };
 const textRed = {
   color: "red"
 }
@@ -60,9 +60,9 @@ const CreateRecipe = (props) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(createDiets());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(createDiets());
+  // }, []);
 
   function onSubmit(e) {
     if (
@@ -76,6 +76,7 @@ const CreateRecipe = (props) => {
       );
     } else {
       console.log("entro al submit");
+      alert("Recipe created successfully");
       dispatch(createRecipe(input));
     }
   }
@@ -92,7 +93,7 @@ const CreateRecipe = (props) => {
   }
 console.log(error);
   function dietsSelect(e) {
-    if (!input.diets.includes(e.target.value)) {
+    if (!input.diets.includes(e.target.value) && e.target.value !== "filter") {
       setInput({ ...input, diets: [...input.diets, e.target.value] });
     }
   }
@@ -180,7 +181,7 @@ console.log(error);
           </div>
           <div>
             {input.diets.map(diet => {
-              return <button onClick={(e) => dietsDelete(diet) }> {diet} X</button>
+              return <button type="button" onClick={(e) => dietsDelete(diet) }> {diet} X</button>
             })}
           </div>
           <div style={div}>

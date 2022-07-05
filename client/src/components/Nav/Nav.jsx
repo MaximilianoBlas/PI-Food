@@ -1,11 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { filterOff, filterRecipe, getAllRecipe,orderOff,orderByTitleUpward,orderByTitleFalling, orderByHealthScoreUpward,orderByHealthScoreFalling } from "../../redux/actions";
+import { filterOff, filterRecipe, getAllRecipe,orderOff,orderByTitleUpward,orderByTitleFalling, orderByHealthScoreUpward,orderByHealthScoreFalling,getAllRecipeOff, setCurrentPage} from "../../redux/actions";
 import s from "./Nav.module.css";
 
 const Nav = (props) => {
   const [searching, setSearching] = React.useState("");
+  const orderString = useSelector((state) => state.orderString);
+  const filterString = useSelector((state) => state.filterString);
+
+  useEffect( () => {
+    let orderElement = document.getElementById("order").value = orderString;
+    let filterElement = document.getElementById("filter").value = filterString;
+    console.log(filterElement);
+    console.log(orderElement);
+  }, [])
+
   console.log("entro el nav");
   function changeSearch(e) {
     setSearching(e.target.value);
@@ -13,14 +23,20 @@ const Nav = (props) => {
   console.log(searching);
 
   const dispatch = useDispatch();
-  const filterBoolean = useSelector((state) => state.filterBoolean);
 
   function search(e) {
-    dispatch(getAllRecipe(searching));
-    dispatch(filterOff());
-    dispatch(orderOff());
-    document.getElementById("filter").value = "filter";
-    document.getElementById("order").value = "order";
+    if (searching) {
+      dispatch(getAllRecipeOff());
+      dispatch(getAllRecipe(searching));
+      dispatch(filterOff());
+      dispatch(orderOff());
+      document.getElementById("filter").value = "filter";
+      document.getElementById("order").value = "order";
+      document.getElementById("search").value = "";
+      dispatch(setCurrentPage(1));
+    }else{
+      alert("The search field is empty");
+    }
   }
 
   function showSelected(e) {
@@ -30,10 +46,12 @@ const Nav = (props) => {
       dispatch(filterOff());
       dispatch(orderOff())
       document.getElementById("order").value = "order";
+      dispatch(setCurrentPage(1));
     } else {
       dispatch(filterRecipe(filter));
       dispatch(orderOff());
       document.getElementById("order").value = "order";
+      dispatch(setCurrentPage(1));
     }
     
   }
@@ -56,7 +74,17 @@ const Nav = (props) => {
     }
   }
   function reload () {
-    dispatch(getAllRecipe());
+    getAllRecipeOff();
+
+     dispatch(getAllRecipe("reload"));
+    dispatch(filterOff());
+    dispatch(orderOff());
+    document.getElementById("filter").value = "filter";
+    document.getElementById("order").value = "order";
+    document.getElementById("search").value = "";
+    setTimeout(() => {
+      dispatch(setCurrentPage(1));
+    }, 2000);
   }
 
   return (
@@ -65,7 +93,7 @@ const Nav = (props) => {
       <button>Create Recipe</button>
       </Link>
       <label htmlFor="name"></label>
-      <input type="text" name="name" autoFocus onChange={(e) => changeSearch(e)} />
+      <input type="text" id="search" name="name" autoFocus onChange={(e) => changeSearch(e)} />
       <button type="submit" onClick={(e) => search(e)}>
         Search
       </button>

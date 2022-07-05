@@ -168,27 +168,6 @@ try {
       };
     });
 
-
-  //   let diets = recipeBd[0].dataValues.diets.map((diet) => {
-  //     if (!arr.includes(diet.dataValues.name)) {
-  //       arr.push(diet.dataValues.name);
-  //       return diet.dataValues.name;
-  //     }
-  //   });
-  //   let id = recipeBd[0].dataValues.id
-  //   let name = recipeBd[0].dataValues.name
-  //   let image = recipeBd[0].dataValues.image
-  //   let health_score = recipeBd[0].dataValues.health_score
-  //   console.log(diets, id, name, image, health_score);
-  //   let objBd = {
-  //     id,
-  //     name,
-  //     image,
-  //     health_score,
-  //     diets,
-  //   }
-    
-  //    arrBd = [objBd]
   }
 
    if(!recipeBd.length){

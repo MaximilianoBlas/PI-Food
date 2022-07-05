@@ -15,30 +15,8 @@ const navLinkStyle = {
 
 const Paginado = (props) => {
   const [numberPageRecipes, setnumberPageRecipes] = useState(1);
-  // const [currentPage, setcurrentPage] = React.useState(1);
   const recipesPerPage = 9
   console.log("entro el paginado");
-  // if (props.iComeFromDetail === false ) {
-  //   props.setCurrentPage(1)
-  //   props.detailState(true)
-  // }
-  // props.setChangePage(true);
-  // setcurrentPage(props.currentPage);
-  // useEffect(() => {
-  //   console.log("useEffect up date");
-  //   props.setCurrentPage(1)
-    
-  // },[props.filter, props.filterBoolean]);
-
-
-    // console.log(props.iComeFromDetail);
-    // if (props.iComeFromDetail) {
-    //     console.log("entar al estado del datalle");
-    //     setcurrentPage(props.currentPage);
-    //   }
-    //   props.detailState(false)
-    //   console.log(props.iComeFromDetail);
-
 
   console.log(props.currentPage);
   let recipes
@@ -159,20 +137,6 @@ if (props.currentPage -1 <= recipes.length / recipesPerPage && props.currentPage
 );
   }
 } 
-//   console.log("current page global " + props.props.currentPage);
-//   console.log("current page local " + props.currentPage);
-// if (props.props.currentPage !== props.currentPage) {
-//   console.log("entro al if de cambio de current page")
-//     props.setCurrentPage(props.currentPage);
-// }
-  
-
-
-// console.log(newRecipes);
-
-
-
-
 
 
   return (

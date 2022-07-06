@@ -1,5 +1,4 @@
-import React, { Component, useEffect, useState} from "react";
-import { useDispatch } from "react-redux";
+import React, { useState} from "react";
 import { NavLink } from "react-router-dom";
 import { getAllRecipe,setCurrentPage,detailState, setChangePage } from "../../redux/actions";
 import style from "./Paginado.module.css";
@@ -16,46 +15,33 @@ const navLinkStyle = {
 const Paginado = (props) => {
   const [numberPageRecipes, setnumberPageRecipes] = useState(1);
   const recipesPerPage = 9
-  console.log("entro el paginado");
 
-  console.log(props.currentPage);
+
   let recipes
   if (props.filterBoolean === false) {
-    console.log("recipe filter false");
     recipes = props.recipe;
     if (props.order === "titleUpward") {
-      console.log("order recipe filter false");
       recipes = props.orderBy;
     } else if (props.order === "titleFalling") {
-      console.log("order recipe title2");
       recipes = props.orderBy;
     } else if (props.order === "healthScoreUpward") {
-      console.log("order recipe health 3");
       recipes = props.orderBy;
     } else if (props.order === "healthScoreFalling") {
-      console.log("order recipe health 4");
       recipes = props.orderBy;
     } else if (props.order === "off") {
-      console.log("order recipe off");
       recipes = props.recipe;
     }
   }else{
-      console.log("order filter");
     recipes = props.filter;
        if (props.order === "titleUpward") {
-         console.log("order recipe title1");
          recipes = props.orderwithfilter;
        } else if (props.order === "titleFalling") {
-         console.log("order recipe title2");
          recipes = props.orderwithfilter;
        } else if (props.order === "healthScoreUpward") {
-         console.log("order recipe health 3");
          recipes = props.orderwithfilter;
        } else if (props.order === "healthScoreFalling") {
-         console.log("order recipe health 4");
          recipes = props.orderwithfilter;
        } else if (props.order === "off") {
-         console.log("order recipe off");
          recipes = props.filter;
        }
   }
@@ -68,13 +54,8 @@ const Paginado = (props) => {
   function start(e) {
     props.setCurrentPage(1);
   }
-  console.log(recipes);
-  // console.log(props.recipe);
-  // console.log(props.filter);
-  console.log(props);
+
     function finish(e) {
-      console.log(Math.floor(recipes.length / recipesPerPage));
-      console.log(recipes);
       props.setCurrentPage(Math.ceil(recipes.length / recipesPerPage));
     }
       function next(e) {
@@ -107,30 +88,21 @@ const Paginado = (props) => {
       setnumberPageRecipes(props.currentPage - 1);
     }
     if ((props.currentPage === 1 || props.currentPage === 2) && numberPageRecipes !== 1) {
-      console.log(3);
         setnumberPageRecipes(1);
     }else if (numberPageRecipes !== props.currentPage - 1 && props.currentPage > 2) {
-      console.log(4);
         number();    
     }
-    console.log("current page " + props.currentPage);
-      
-    
-
 
   let newRecipes = [], newRecipePerPage;
 if (props.currentPage -1 <= recipes.length / recipesPerPage && props.currentPage > 0) {
   if (recipes.length - (props.currentPage * recipesPerPage) >= 0) {
-    console.log(1);
+
     newRecipes = recipes.slice(
       (props.currentPage - 1) * recipesPerPage,
       (props.currentPage - 1) * recipesPerPage + recipesPerPage
     );
   } else{
-    console.log(2);
      newRecipePerPage = recipesPerPage - (recipes.length - props.currentPage * recipesPerPage)
-     console.log(recipes.length);
-     console.log(newRecipePerPage);
   newRecipes = recipes.slice(
   (props.currentPage - 1) * recipesPerPage,
   (props.currentPage - 1) * recipesPerPage + newRecipePerPage
@@ -170,10 +142,9 @@ if (props.currentPage -1 <= recipes.length / recipesPerPage && props.currentPage
         </button>
       </div>
       <div className={style.conteinerRecipe}>
-        {console.log(newRecipes)}
         {newRecipes.length ? (
           newRecipes.map((e) => (
-            <NavLink to={`/Detail/${e.id}`} style={navLinkStyle}>
+            <NavLink key={e.id?e.id:"notFound"}  to={`/Detail/${e.id}`} style={navLinkStyle}>
               <FoodCard
                 id={e.id}
                 name={e.name}

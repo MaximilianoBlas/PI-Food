@@ -7,21 +7,17 @@ import loading from "../../images/LoadingGoku.gif";
 
 const Recipe_Detail = (props) => {
   const dispatch = useDispatch();
-  console.log("entro el recipe detail");
-  console.log(props);
 useEffect(() => {
-  console.log("entro el useEffect");
   dispatch(getRecipeDetail(props.match.params.id));
   return () => {
     dispatch(recipeDetailOff(props.match.params.id));
     dispatch(setChangePage(false));
   }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 
 const detail = useSelector((state) => state.recipeDetail);
 
-console.log(props.match.params.id);
-console.log(detail);
 
   const divContainerRecipe = {
     display: "flex",
@@ -60,13 +56,13 @@ console.log(detail);
 
           <img
             src={detail.image ? detail.image : loading}
-            alt={loading}
+            alt={"NotFound"}
             style={width}
           />
           {isNaN(props.match.params.id) ? (
             <div>
               <h3>
-                {detail.diets ? `Diets: ${detail.diets.join(" ")}` : ""}
+                {detail.diets ? `Diets: ${detail.diets.join(" ")}   ` : ""}
                 {detail.health_score
                   ? `Health Score:  ${detail.health_score}`
                   : ""}
@@ -75,7 +71,6 @@ console.log(detail);
                 <h3>Dish summary: {detail.dish_summary}</h3>
               </div>
               <div>
-                {console.log(detail.step_by_step)}
                 <h3>
                   {detail.step_by_step
                     ? `Step by step: ${detail.step_by_step}`
@@ -106,21 +101,6 @@ console.log(detail);
               </h3>
             </div>
           )}
-          {/* <h3>
-            Diets: {detail.diets} Health Score: {detail.health_score}
-          </h3> */}
-          {/* <h3>
-            <div
-              dangerouslySetInnerHTML={{ __html: detail.dish_summary }}
-              style={text}
-            />
-          </h3>
-          <h3>
-            <div
-              dangerouslySetInnerHTML={{ __html: detail.Step_by_Step }}
-              style={text}
-            />
-          </h3> */}
         </div>
       </div>
     </div>

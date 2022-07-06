@@ -1,26 +1,23 @@
-import React, { Component, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { filterOff, filterRecipe, getAllRecipe,orderOff,orderByTitleUpward,orderByTitleFalling, orderByHealthScoreUpward,orderByHealthScoreFalling,getAllRecipeOff, setCurrentPage} from "../../redux/actions";
-import s from "./Nav.module.css";
 
-const Nav = (props) => {
+const Nav = () => {
   const [searching, setSearching] = React.useState("");
   const orderString = useSelector((state) => state.orderString);
   const filterString = useSelector((state) => state.filterString);
 
   useEffect( () => {
-    let orderElement = document.getElementById("order").value = orderString;
-    let filterElement = document.getElementById("filter").value = filterString;
-    console.log(filterElement);
-    console.log(orderElement);
+    document.getElementById("order").value = orderString
+    document.getElementById("filter").value =
+      filterString
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log("entro el nav");
   function changeSearch(e) {
     setSearching(e.target.value);
   }
-  console.log(searching);
 
   const dispatch = useDispatch();
 
@@ -40,7 +37,6 @@ const Nav = (props) => {
   }
 
   function showSelected(e) {
-    console.log("showSelected");
     let filter = document.getElementById("filter").value;
     if (filter === "filter") {
       dispatch(filterOff());
@@ -57,15 +53,12 @@ const Nav = (props) => {
   }
 
   function orderBy(e) {
-    console.log("order by");
     let order = document.getElementById("order").value;
     if (order === "order") {
       dispatch(orderOff());
     } else if (order === "titleUpward") {
-      console.log("order by titleUpward");
       dispatch(orderByTitleUpward());
     } else if (order === "titleFalling") {
-      console.log("order by titleFalling");
       dispatch(orderByTitleFalling());
     } else if (order === "healthScoreUpward") {
       dispatch(orderByHealthScoreUpward());

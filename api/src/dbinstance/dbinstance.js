@@ -15,7 +15,7 @@ const { Diet } = require("../db");
       { name: "paleolithic" },
       { name: "primal" },
       { name: "low FODMAP" },
-      { name: "whole30" }
+      { name: "whole 30" }
     ]);
     console.log("diets create");
   }

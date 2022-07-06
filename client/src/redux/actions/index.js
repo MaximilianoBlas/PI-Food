@@ -65,11 +65,8 @@ export const getAllRecipe = (name) => {
       };
     }else{
       currentName = name;
-      console.log("actions else");
-      console.log(name);
       return async (dispatch) => {
         const res = await axios.get(`/recipes?name=${name}`);
-        console.log(typeof res.data === "object");
         dispatch({
           type: GET_ALL_RECIPE,
   
@@ -97,7 +94,6 @@ export const getAllRecipeOff = () =>{
 }
 
 export const filterRecipe = (payload) => {
-  console.log("action show");
   return {
     type: FILTER_RECIPE, 
     payload
@@ -111,26 +107,22 @@ export const orderOff = () => {
 }
 
 export const orderByTitleUpward = () => {
-  console.log("action title upward");
   return {
     type: ORDER_BY_TITLE_UPWARD,
   };
 };
 export const orderByTitleFalling = () => {
-  console.log("action title falling");
   return {
     type: ORDER_BY_TITLE_FALLING,
   };
 };
 
 export const orderByHealthScoreUpward = () => {
-  console.log("action orderByHealthScore");
   return {
     type: ORDER_BY_HEALTHSCORE_UPWARD,
   };
 };
 export const orderByHealthScoreFalling = () => {
-  console.log("action orderByHealthScore");
   return {
     type: ORDER_BY_HEALTHSCORE_FALLING,
   };
@@ -142,10 +134,6 @@ export const filterOff = () => {
   };
 };
 
-
-
-
-
 export const getRecipeDetail = (id) => {
 
   return async (dispatch) => {
@@ -155,16 +143,6 @@ export const getRecipeDetail = (id) => {
       payload: res.data,
     });
   };
-  // return function (dispatch) {
-  //   return fetch(`/recipes/${id}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       dispatch({
-  //         type: DETAIL_RECIPE,
-  //         payload: data,
-  //       });
-  //     });
-  // };
 }
 
 export const recipeDetailOff = () => {
@@ -173,21 +151,9 @@ export const recipeDetailOff = () => {
         }       
 }
 
-export const createDiets = (input) => {
-  return async (dispatch) => {
-    const res = await axios.post("/diets");
-    console.log(res.data);
-    dispatch({
-      type: CREATE_DIETS,
-    });
-  };
-};
-
-
 export const createRecipe = (input) => {
   return async (dispatch) => {
     const res = await axios.post("/recipes", input)
-    console.log(res.data)
     dispatch({
       type: CREATE_RECIPE,
       payload: res.data,
@@ -203,8 +169,6 @@ export const setCurrentPage = (page) => {
 }
 
 export const detailState = (state) => {
-  console.log("action detail state");
-  console.log(state);
   return {
     type: DETAIL_STATE,
     payload: state,
@@ -212,7 +176,6 @@ export const detailState = (state) => {
 }
 
 export const setChangePage = (boolean) => {
-  console.log("action change page");
   return {
     type: CHANGE_PAGE,
     payload: boolean,

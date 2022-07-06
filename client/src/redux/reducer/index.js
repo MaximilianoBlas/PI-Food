@@ -1,4 +1,4 @@
-import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, DETAIL_RECIPE_OFF,CREATE_DIETS, GET_ALL_RECIPE_OFF,SET_CURRENT_PAGE, DETAIL_STATE, CHANGE_PAGE, changePage } from "../actions/index";
+import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, DETAIL_RECIPE_OFF,CREATE_DIETS, GET_ALL_RECIPE_OFF,SET_CURRENT_PAGE, DETAIL_STATE, CHANGE_PAGE } from "../actions/index";
 
 
 
@@ -20,15 +20,11 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_RECIPE:
-      console.log("reducer");
-      console.log(action.payload);
       return {
         ...state,
         recipe: action.payload,
         orderBy: [...action.payload],
         currentPage: state.changePage?1:state.currentPage,
-        
-        
       };
       case GET_ALL_RECIPE_OFF:
       return {
@@ -39,8 +35,6 @@ const rootReducer = (state = initialState, action) => {
       }
 
     case FILTER_RECIPE:
-      console.log("reducer show");
-
       return {
         ...state,
         filterString: action.payload,
@@ -59,7 +53,6 @@ const rootReducer = (state = initialState, action) => {
         filterBoolean: false,
       };
     case ORDER_BY_TITLE_UPWARD:
-      console.log("reducer title upward"); 
       return {
         ...state,
         order: "titleUpward",
@@ -86,7 +79,6 @@ const rootReducer = (state = initialState, action) => {
               }):  state.orderwithfilter,
       };
     case ORDER_BY_TITLE_FALLING:
-      console.log("reducer title falling");
       return {
         ...state,
         order: "titleFalling",
@@ -114,7 +106,6 @@ const rootReducer = (state = initialState, action) => {
               }): state.orderwithfilter,
       };
     case ORDER_BY_HEALTHSCORE_UPWARD:
-      console.log("reducer orderByHealthScore");
       return {
         ...state,
         order: "healthScoreUpward",
@@ -142,7 +133,6 @@ const rootReducer = (state = initialState, action) => {
               }): state.orderwithfilter,
       };
     case ORDER_BY_HEALTHSCORE_FALLING:
-      console.log("reducer orderByHealthScore");
       return {
         ...state,
         order: "healthScoreFalling",
@@ -176,8 +166,6 @@ const rootReducer = (state = initialState, action) => {
         orderString: "order",
       };
     case DETAIL_RECIPE:
-      console.log("reducer detail");
-      console.log(action.payload);
       return {
         ...state,
         recipeDetail: action.payload,}
@@ -194,13 +182,10 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         currentPage: action.payload,}
         case DETAIL_STATE:
-          console.log("reducer detail state");
-          console.log(action.payload);
       return {
         ...state,
         iComeFromDetail: action.payload,}
         case CHANGE_PAGE:
-          console.log(action.payload);
       return {
         ...state,
         changePage: action.payload,}

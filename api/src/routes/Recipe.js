@@ -3,14 +3,11 @@ const {Recipe, Diet} = require("../db")
 const axios =require("axios")
 const { Op } = require("sequelize"); 
  
-const router = Router();  
-
+const router = Router();   
  
 router.get("/:id", async (req, res,next) => {
-  console.log(req.params.id)
   const {id} = req.params
   if(isNaN(id)){
-    console.log("id is not a number")
     Recipe.findByPk(id, {
       include: [
         {
@@ -23,11 +20,8 @@ router.get("/:id", async (req, res,next) => {
     })
       .then((response) => {
         if (!response) {
-          console.log("no response");
-          console.log(response);
           return res.send("No se encontro receta con ese id");
         } else {
-          console.log("response");
           let arr = [];
           let diets = response.dataValues.diets.map((diet) => {
             if (!arr.includes(diet.dataValues.name)) {
@@ -41,7 +35,6 @@ router.get("/:id", async (req, res,next) => {
           let image = response.dataValues.image;
           let health_score = response.dataValues.health_score;
           let step_by_step = response.dataValues.step_by_Step;
-          console.log(diets, id, name, image, health_score, step_by_step);
           let objBd = {
             id,
             name, 
@@ -51,14 +44,10 @@ router.get("/:id", async (req, res,next) => {
             step_by_step,
             diets,
           };
-          console.log(response);
-          console.log("--------------------------------------------------------------");
-          console.log(objBd);
           return res.send(objBd);
         }
       })
       .catch((response) => {
-        console.log("error");
         return res.send("Error atrapado por catch de BD");
       });
   } else{
@@ -68,7 +57,6 @@ try {
   );
 
   const name = recipeApi.data.title;
-  console.log(recipeApi.data);
   const dish_summary = recipeApi.data.summary;
   const health_score = recipeApi.data.healthScore; 
   const Step_by_Step = recipeApi.data.instructions;
@@ -108,7 +96,6 @@ const notSearched = [
       recipeApi = await axios.get( 
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.query.name}&addRecipeInformation=true&number=100`
       );
-      // console.log(recipeApi.data);
        newRecipe = recipeApi.data.results.map((recipe) => { 
         return {
           id: recipe.id, 
@@ -124,7 +111,6 @@ const notSearched = [
 
  
 try {
-  console.log(0);
   const recipeBd = await Recipe.findAll({
     where: { 
       name: {
@@ -143,15 +129,7 @@ try {
       },
     ],
   });
-
-  console.log("pasa en findAll");
-  console.log(recipeBd);
-  let arrBd= []
   if (recipeBd.length) {
-    console.log("pasa en if");
-    let arr=[]
-
-
     recipeBD = recipeBd.map((recipe) => {
       let arr = []; 
       return {
@@ -167,33 +145,23 @@ try {
         }),
       };
     });
-
   }
-console.log(recipeBD);
-console.log(newRecipe);
-console.log(recipeApi);
+
    if(!recipeBd.length){
-    console.log(1);
     if (newRecipe.length) { 
-      console.log(2);
      return res.send(newRecipe)  
         } 
         return res.send(notSearched);
     }
        if (!newRecipe.length) {
-        console.log(3);
          if (recipeBd.length) {
-          console.log(4);
            return res.send(recipeBD); 
          }
-        console.log(5);
          return res.send("No se encontro receta con ese nombre");
        }
-      console.log(6);
      let recip = [ ...recipeBD, ...newRecipe]
   return res.send(recip);
 } catch (error) {
-  console.log(7);
   return res.send(error.message)
 }
 } else{
@@ -202,7 +170,6 @@ console.log(recipeApi);
     const recipeApi = await axios.get(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&addRecipeInformation=true&number=100`
       );
-      // console.log(recipeApi.data);
       newRecipe = recipeApi.data.results.map((recipe) => { 
         return { 
           id: recipe.id,
@@ -214,7 +181,6 @@ console.log(recipeApi);
       });
  
   } catch (error) {
-    console.log("Error atrapado por catch de API");
     console.log(error.message);
   }
     // res.send(newRecipe);
@@ -233,11 +199,7 @@ console.log(recipeApi);
         ],
       });
   
-      console.log("pasa en findAll"); 
-      // console.log(recipeBd); 
-      let arrBd = [];
       if (recipeBd.length) {
-        console.log("pasa en if");
         let recipeBD  = recipeBd.map((recipe) => {
           let arr = []
           return {
@@ -245,7 +207,7 @@ console.log(recipeApi);
             name: recipe.dataValues.name,
             image: recipe.dataValues.image,
             health_score: recipe.dataValues.health_score,
-            diets: recipe.dataValues.diets.map((diet) => {
+            diets: recipe.dataValues.diets.map((diet) => { 
               if (!arr.includes(diet.dataValues.name)) {
                 arr.push(diet.dataValues.name)
               return diet.dataValues.name
@@ -253,27 +215,7 @@ console.log(recipeApi);
             }) 
           };
         })
-        console.log(recipeBD);
-
-
-
-
-        // let diets = recipeBd[0].dataValues.diets.map((diet) => {
-        //   return diet.dataValues.name;
-        // });
-        // let id = recipeBd[0].dataValues.id;
-        // let name = recipeBd[0].dataValues.name;
-        // let image = recipeBd[0].dataValues.image;
-        // let health_score = recipeBd[0].dataValues.health_score;
-        // console.log(diets, id, name, image, health_score);
-        // let objBd = {
-        //   id,
-        //   name,
-        //   image,
-        //   health_score,
-        //   diets,
-        // };
-        // arrBd = [objBd];
+  
         let recipe = [...recipeBD, ...newRecipe];
         if (!recipeBD.length&& !newRecipe.length) {
           return res.send(notSearched);
@@ -282,30 +224,23 @@ console.log(recipeApi);
       
         return res.send(recipe)
       } else { 
-        console.log("else de findAll");
         if(!newRecipe.length){
-          console.log("condicional Db no tiene nada yapi tampoco");
           return res.send(notSearched);
         }else{
-
           return  res.send(newRecipe); 
         }
-      }
-      
+      }   
     } catch (error) {
-      console.log("error en busca todo");
       console.log(error.message);
-      res.send(notSearched);
+      res.send(notSearched); 
     }
 
-  }
+  } 
 
 })
 
 router.post("/", async (req,res, next) =>{
-  console.log(req.body);
   let {name, dish_summary, health_score, step_by_Step, diets, image} = req.body;
-  console.log(name, dish_summary, health_score, step_by_Step, diets, image);
   let  recipe = await Recipe.create({
     name,
     dish_summary, 
@@ -313,9 +248,7 @@ router.post("/", async (req,res, next) =>{
     step_by_Step,
     image
   })  
-  console.log(recipe);
   if (diets.length) {
-    console.log("diets");
     let addDiets = await Diet.findAll({ 
       where:{ 
         name: diets 
@@ -332,26 +265,9 @@ router.post("/", async (req,res, next) =>{
         }
       }]
     }) 
-
-    // console.log(recipewithdiets); 
   }
   
-
  return  res.send("Receta agregada")
 })
-
-
-router.delete("/:id", async (req,res,next)=>{
-  const {id} = req.params
-  try {
-    Recipe.destroy({
-      where:{
-        id
-      }
-    })
-  } catch (error) {
-    res.status(400).send(error.message)
-  }
-  res.send("Delete recipe")
-})
+   
 module.exports = router; 

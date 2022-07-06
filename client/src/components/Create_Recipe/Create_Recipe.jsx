@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { createRecipe, createDiets } from "../../redux/actions";
+import { createRecipe } from "../../redux/actions";
 import s from "./Create_Recipe.module.css";
 
 
@@ -33,13 +33,7 @@ const div = {
   justifyContent: "center",
   margin: "10px",
 }
-// const title = {
-//   display: "flex",
-//   justifyContent: "center",
-//   alingItems: "center",
-//   backgroundColor: "#EEC392",
-//   width: "100%",
-// };
+
 const textRed = {
   color: "red"
 }
@@ -60,10 +54,6 @@ const CreateRecipe = (props) => {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(createDiets());
-  // }, []);
-
   function onSubmit(e) {
     if (
       input.name === "" ||
@@ -75,7 +65,6 @@ const CreateRecipe = (props) => {
         "Complete the form correctly, name and dish summary must be completed"
       );
     } else {
-      console.log("entro al submit");
       alert("Recipe created successfully");
       dispatch(createRecipe(input));
     }
@@ -91,7 +80,7 @@ const CreateRecipe = (props) => {
       [e.target.name]: e.target.value,
     }));
   }
-console.log(error);
+
   function dietsSelect(e) {
     if (!input.diets.includes(e.target.value) && e.target.value !== "filter") {
       setInput({ ...input, diets: [...input.diets, e.target.value] });
@@ -103,7 +92,6 @@ console.log(error);
       diets: input.diets.filter((e) => e !==diet),
     });
   }
-  console.log(input);
 
   return (
     <div style={divContainer}>
@@ -185,11 +173,6 @@ console.log(error);
             })}
           </div>
           <div style={div}>
-            {/* {input.name === "" ? (
-            alert("Complite name and Dish Summary")
-          ) : (
-            <button type="submit">Create Recipe</button>
-          )} */}
             <button type="submit">Create Recipe</button>
           </div>
         </form>

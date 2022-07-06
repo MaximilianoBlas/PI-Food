@@ -3,7 +3,6 @@ import style from "./Food_Card.module.css";
 import notFound from "../../images/NoEncontrado.jpg";
 
 const FoodCard = (props) => {
-// console.log(props);
   return (
     <div
       className={

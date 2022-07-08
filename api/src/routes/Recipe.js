@@ -2,9 +2,9 @@ const { Router, query } = require("express");
 const {Recipe, Diet} = require("../db")
 const axios =require("axios")
 const { Op } = require("sequelize"); 
- 
+  
 const router = Router();   
- 
+   
 router.get("/:id", async (req, res,next) => {
   const {id} = req.params
   if(isNaN(id)){
@@ -80,7 +80,7 @@ try {
 
 
 });   
- 
+  
 router.get("/", async (req, res,next) =>{
 const notSearched = [
   {
@@ -91,12 +91,12 @@ const notSearched = [
   },
 ];
   if (req.query.name) {
-    let recipeApi, newRecipe = [], recipeBD
+    let recipeApi, newRecipeApi = [], newRecipeBd
     try { 
       recipeApi = await axios.get( 
         `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&query=${req.query.name}&addRecipeInformation=true&number=100`
       );
-       newRecipe = recipeApi.data.results.map((recipe) => { 
+       newRecipeApi = recipeApi.data.results.map((recipe) => { 
         return {
           id: recipe.id, 
           name: recipe.title,
@@ -130,7 +130,7 @@ try {
     ],
   });
   if (recipeBd.length) {
-    recipeBD = recipeBd.map((recipe) => {
+    newRecipeBd = recipeBd.map((recipe) => {
       let arr = []; 
       return {
         id: recipe.dataValues.id,
@@ -145,32 +145,24 @@ try {
         }),
       };
     });
+    let recipe = [...newRecipeBd, ...newRecipeApi]
+    res.send(recipe)
+  } else if(newRecipeApi.length){
+    res.send(newRecipeApi)
+  }else{
+    res.send(notSearched) 
   }
-
-   if(!recipeBd.length){
-    if (newRecipe.length) { 
-     return res.send(newRecipe)  
-        } 
-        return res.send(notSearched);
-    }
-       if (!newRecipe.length) {
-         if (recipeBd.length) {
-           return res.send(recipeBD); 
-         }
-         return res.send("No se encontro receta con ese nombre");
-       }
-     let recip = [ ...recipeBD, ...newRecipe]
-  return res.send(recip);
 } catch (error) {
-  return res.send(error.message)
+  console.log(error.message)
+  return res.send(notSearched)
 }
 } else{
-  let newRecipe = []
+  let newRecipeApi = []
   try {
     const recipeApi = await axios.get(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&addRecipeInformation=true&number=100`
       );
-      newRecipe = recipeApi.data.results.map((recipe) => { 
+      newRecipeApi = recipeApi.data.results.map((recipe) => { 
         return { 
           id: recipe.id,
           name: recipe.title,
@@ -183,7 +175,6 @@ try {
   } catch (error) {
     console.log(error.message);
   }
-    // res.send(newRecipe);
     try {
     const recipeBd = await Recipe.findAll({
         attributes: {
@@ -200,7 +191,7 @@ try {
       });
   
       if (recipeBd.length) {
-        let recipeBD  = recipeBd.map((recipe) => {
+        let newRecipeBd  = recipeBd.map((recipe) => {
           let arr = []
           return {
             id: recipe.dataValues.id,
@@ -216,27 +207,18 @@ try {
           };
         })
   
-        let recipe = [...recipeBD, ...newRecipe];
-        if (!recipeBD.length&& !newRecipe.length) {
+        let recipe = [...newRecipeBd, ...newRecipeApi];
+          return res.send(recipe);
+      } else if (newRecipeApi.length) {
+        return res.send(newRecipeApi);
+      } else {
           return res.send(notSearched);
-        }
-          
-      
-        return res.send(recipe)
-      } else { 
-        if(!newRecipe.length){
-          return res.send(notSearched);
-        }else{
-          return  res.send(newRecipe); 
-        }
       }   
     } catch (error) {
       console.log(error.message);
       res.send(notSearched); 
     }
-
   } 
-
 })
 
 router.post("/", async (req,res, next) =>{
@@ -269,5 +251,5 @@ router.post("/", async (req,res, next) =>{
   
  return  res.send("Receta agregada")
 })
-   
+    
 module.exports = router; 

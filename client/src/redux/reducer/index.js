@@ -1,4 +1,4 @@
-import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, DETAIL_RECIPE_OFF,CREATE_DIETS, GET_ALL_RECIPE_OFF,SET_CURRENT_PAGE, DETAIL_STATE, CHANGE_PAGE } from "../actions/index";
+import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, GET_ALL_RECIPE_OFF,SET_CURRENT_PAGE } from "../actions/index";
 
 
 
@@ -12,9 +12,7 @@ const initialState = {
   filterBoolean: false,
   order: "off",
   recipeDetail: [],
-  changePage: true,
   currentPage: 1,
-  iComeFromDetail: false,
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -169,26 +167,10 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         recipeDetail: action.payload,}
-    case DETAIL_RECIPE_OFF:
-      return {
-        ...state,
-        recipeDetail: [],
-        iComeFromDetail: true}
-    case CREATE_DIETS:
-      return {
-        ...state,}
         case SET_CURRENT_PAGE:
       return {
         ...state,
         currentPage: action.payload,}
-        case DETAIL_STATE:
-      return {
-        ...state,
-        iComeFromDetail: action.payload,}
-        case CHANGE_PAGE:
-      return {
-        ...state,
-        changePage: action.payload,}
     default:
       return state;
   };

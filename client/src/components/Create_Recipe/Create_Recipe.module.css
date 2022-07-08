@@ -1,12 +1,42 @@
+.inputBlue:active,
+.inputBlue:focus {
+    outline: blue;
+    border: 1px solid blue;
+    background-color: #ddd;
+    color: #111;
+    font-size: 14px;
 
 
-.inputBlue:active, .inputBlue:focus {
-  outline: blue;
-  border: 1px solid blue;
 }
-.inputRed:active, .inputRed:focus{
-  border: 1px solid red;
-  outline: red;
+.inputRed:active,
+.inputRed:focus {
+    border: 1px solid red;
+    outline: red;
+    background-color: #ddd;
+    color: #111;
+    font-size: 14px;
+    font-weight: bold;
+
 }
 
+input,textarea {
+    background-color: #ddd;
+    color: #111;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+/* .input2 {
+    background-color: #ddd;
+    color: #111;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+} */
 
+.text {
+    color: #ddd;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+}

@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 import { NavLink } from "react-router-dom";
-import { getAllRecipe,setCurrentPage,detailState, setChangePage } from "../../redux/actions";
+import { getAllRecipe,setCurrentPage } from "../../redux/actions";
 import style from "./Paginado.module.css";
 import FoodCard from "../Food_Card/Food_Card";
 import { connect } from "react-redux";
@@ -19,7 +19,6 @@ const Paginado = (props) => {
 
   let recipes
   if (props.filterBoolean === false) {
-    recipes = props.recipe;
     if (props.order === "titleUpward") {
       recipes = props.orderBy;
     } else if (props.order === "titleFalling") {
@@ -45,7 +44,6 @@ const Paginado = (props) => {
          recipes = props.filter;
        }
   }
-
 
   if (recipes.length===1) {
     props.setCurrentPage(1)
@@ -183,8 +181,6 @@ export const mapStateToProps = function (state) {
     order: state.order,
     orderwithfilter: state.orderwithfilter,
     currentPage: state.currentPage,
-    iComeFromDetail: state.iComeFromDetail,
-    changePage: state.changePage,
   };
 };
 
@@ -192,8 +188,6 @@ export const mapDispatchToProps = function (dispatch) {
   return {
     getAllRecipe: () => dispatch(getAllRecipe()),
     setCurrentPage: (page) => dispatch(setCurrentPage(page)),
-    detailState: (state) => dispatch(detailState(state)),
-    setChangePage: (boolean) => dispatch(setChangePage(boolean)),
   };
 };
 

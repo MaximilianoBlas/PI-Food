@@ -10,13 +10,10 @@ export const ORDER_BY_TITLE_FALLING = "ORDER_BY_TITLE_FALLING";
 export const ORDER_BY_HEALTHSCORE_UPWARD = "ORDER_BY_HEALTHSCORE_UPWARD";
 export const ORDER_BY_HEALTHSCORE_FALLING = "ORDER_BY_HEALTHSCORE_FALLING";
 export const DETAIL_RECIPE = "DETAIL_RECIPE";
-export const DETAIL_RECIPE_OFF = "DETAIL_RECIPE_OFF";
 export const CREATE_RECIPE = "CREATE_RECIPE";
-export const CREATE_DIETS = "CREATE_DIETS";
 export const GET_ALL_RECIPE_OFF = "GET_ALL_RECIPE_OFF";
 export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
-export const DETAIL_STATE = "DETAIL_STATE";
-export const CHANGE_PAGE = "CHANGE_PAGE";
+
 
 let currentName
 export const getAllRecipe = (name) => {
@@ -70,7 +67,7 @@ export const getAllRecipe = (name) => {
         dispatch({
           type: GET_ALL_RECIPE,
   
-          payload: typeof res.data === "object"
+          payload: typeof res.data.length
             ? res.data
             : [
                 {
@@ -80,7 +77,6 @@ export const getAllRecipe = (name) => {
                   diets: []
                 },
               ],
-              name
         });
       };
     }
@@ -145,11 +141,6 @@ export const getRecipeDetail = (id) => {
   };
 }
 
-export const recipeDetailOff = () => {
-        return {
-          type: DETAIL_RECIPE_OFF,
-        }       
-}
 
 export const createRecipe = (input) => {
   return async (dispatch) => {
@@ -165,19 +156,5 @@ export const setCurrentPage = (page) => {
   return {
     type: SET_CURRENT_PAGE,
     payload: page,
-  };
-}
-
-export const detailState = (state) => {
-  return {
-    type: DETAIL_STATE,
-    payload: state,
-  };
-}
-
-export const setChangePage = (boolean) => {
-  return {
-    type: CHANGE_PAGE,
-    payload: boolean,
   };
 }

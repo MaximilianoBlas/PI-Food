@@ -17,13 +17,13 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-const server = require('./src/app.js');
-const { conn } = require('./src/db.js');
-const {createDiets} =  require("./src/dbinstance/dbinstance.js");
+const server = require("./src/app.js");
+const { conn } = require("./src/db.js");
+const { createDiets } = require("./src/dbinstance/dbinstance.js");
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
-  createDiets();
-  server.listen(process.env.PORT, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
-  });
+conn.sync({ force: false }).then(() => {
+    createDiets();
+    server.listen(process.env.PORT, () => {
+        console.log("%s listening at 3001"); // eslint-disable-line no-console
+    });
 });

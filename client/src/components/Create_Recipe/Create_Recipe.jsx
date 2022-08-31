@@ -104,8 +104,6 @@ const CreateRecipe = (props) => {
             </Link>
             <div style={divContainerForm}>
                 <form
-                    method="post"
-                    enctype="multipart/form-data"
                     action=""
                     onSubmit={(e) => onSubmit(e)}
                     style={formconteiner}

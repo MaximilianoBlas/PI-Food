@@ -1,4 +1,4 @@
-import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, GET_ALL_RECIPE_OFF,SET_CURRENT_PAGE } from "../actions/index";
+import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, GET_ALL_RECIPE_OFF,SET_CURRENT_PAGE, CREATE_RECIPE } from "../actions/index";
 
 
 
@@ -171,6 +171,8 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         currentPage: action.payload,}
+        case CREATE_RECIPE :
+            return state
     default:
       return state;
   };

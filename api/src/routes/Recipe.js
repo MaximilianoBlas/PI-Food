@@ -4,7 +4,7 @@ const axios =require("axios")
 const { Op } = require("sequelize"); 
   
 const router = Router();   
-   
+     
 router.get("/:id", async (req, res,next) => {
   const {id} = req.params
   if(isNaN(id)){
@@ -222,6 +222,7 @@ try {
 })
 
 router.post("/", async (req,res, next) =>{
+    console.log("entro al post");
   let {name, dish_summary, health_score, step_by_Step, diets, image} = req.body;
   let  recipe = await Recipe.create({
     name,

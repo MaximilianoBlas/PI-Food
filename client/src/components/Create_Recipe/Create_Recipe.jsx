@@ -64,6 +64,7 @@ const CreateRecipe = (props) => {
                 "Complete the form correctly, name and dish summary must be completed"
             );
         } else {
+            e.preventDefault();
             alert("Recipe created successfully");
             dispatch(createRecipe(input));
         }

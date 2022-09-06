@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getAllRecipe } from "../../redux/actions/index";
+import { getAllRecipe, getAllRecipeOff } from "../../redux/actions/index";
 import Nav from "../Nav/Nav";
 import Paginado from "../Paginado/Paginado";
 
@@ -19,6 +19,7 @@ const navbar ={
  const dispatch = useDispatch();
 
   useEffect(()=>{
+    dispatch(getAllRecipeOff());
     dispatch(getAllRecipe());
   },[dispatch]);
 

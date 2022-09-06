@@ -1,4 +1,18 @@
-import { GET_ALL_RECIPE, FILTER_RECIPE, FILTER_OFF,ORDER_OFF,ORDER_BY_TITLE_UPWARD,ORDER_BY_HEALTHSCORE_UPWARD, ORDER_BY_TITLE_FALLING, ORDER_BY_HEALTHSCORE_FALLING, DETAIL_RECIPE, GET_ALL_RECIPE_OFF,SET_CURRENT_PAGE, CREATE_RECIPE } from "../actions/index";
+import {
+    GET_ALL_RECIPE,
+    FILTER_RECIPE,
+    FILTER_OFF,
+    ORDER_OFF,
+    ORDER_BY_TITLE_UPWARD,
+    ORDER_BY_HEALTHSCORE_UPWARD,
+    ORDER_BY_TITLE_FALLING,
+    ORDER_BY_HEALTHSCORE_FALLING,
+    DETAIL_RECIPE,
+    GET_ALL_RECIPE_OFF,
+    SET_CURRENT_PAGE,
+    CREATE_RECIPE,
+    RECIPE_DETAIL_OFF,
+} from "../actions/index";
 
 
 
@@ -173,6 +187,11 @@ const rootReducer = (state = initialState, action) => {
         currentPage: action.payload,}
         case CREATE_RECIPE :
             return state
+            case RECIPE_DETAIL_OFF:
+                return {
+                    ...state,
+                    recipeDetail: [],
+                };
     default:
       return state;
   };

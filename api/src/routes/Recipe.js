@@ -223,6 +223,7 @@ try {
 
 router.post("/", async (req,res, next) =>{
   let {name, dish_summary, health_score, step_by_Step, diets, image} = req.body;
+  if(!health_score)health_score = undefined
   let  recipe = await Recipe.create({
     name,
     dish_summary, 

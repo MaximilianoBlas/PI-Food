@@ -61,8 +61,7 @@ const CreateRecipe = (props) => {
         setTimeout(() => {
             setModalSubmit(false);
         }, 1000);
-        dispatch(createRecipe(input));
-        console.log("llega");
+           dispatch(createRecipe(input));
         setInput({
             name: "",
             dish_summary: "",
@@ -72,7 +71,6 @@ const CreateRecipe = (props) => {
             diets: [],
             select: "filter",
         });
-        console.log("pasa");
     }
 
     function inputChange(e) {

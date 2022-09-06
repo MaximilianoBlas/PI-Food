@@ -13,6 +13,7 @@ export const DETAIL_RECIPE = "DETAIL_RECIPE";
 export const CREATE_RECIPE = "CREATE_RECIPE";
 export const GET_ALL_RECIPE_OFF = "GET_ALL_RECIPE_OFF";
 export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+export const RECIPE_DETAIL_OFF = "RECIPE_DETAIL_OFF";
 
 
 let currentName
@@ -158,3 +159,9 @@ export const setCurrentPage = (page) => {
     payload: page,
   };
 }
+
+export const recipeDetailOff = () => {
+    return {
+        type: RECIPE_DETAIL_OFF,
+    };
+};

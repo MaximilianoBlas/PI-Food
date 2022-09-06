@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getRecipeDetail } from "../../redux/actions";
+import { getRecipeDetail, recipeDetailOff } from "../../redux/actions";
 
 
 const Recipe_Detail = (props) => {
   const dispatch = useDispatch();
 useEffect(() => {
   dispatch(getRecipeDetail(props.match.params.id));
+  return dispatch(recipeDetailOff());
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 

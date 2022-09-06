@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { createRecipe } from "../../redux/actions";
+import Modals from "../Modal_Create_Recipe/Modals";
 import s from "./Create_Recipe.module.css";
 
 const divContainer = {
@@ -39,35 +40,39 @@ const CreateRecipe = (props) => {
     const [input, setInput] = useState({
         name: "",
         dish_summary: "",
-        health_score: undefined,
-        step_by_Step: undefined,
-        image: undefined,
+        health_score: "",
+        step_by_Step: "",
+        image: "",
         diets: [],
+        select: "filter",
     });
     const [error, setError] = useState({});
-
+    const [modalOpening, setModalOpening] = useState(true);
+    const [modalSubmit, setModalSubmit] = useState(false);
     const dispatch = useDispatch();
 
+    setTimeout(() => {
+        setModalOpening(false);
+    }, 1500);
+
     function onSubmit(e) {
-        if (
-            input.name === "" ||
-            input.dish_summary === "" ||
-            error.hasOwnProperty("health_score") ||
-            error.hasOwnProperty("step_by_Step") ||
-            error.hasOwnProperty("image") ||
-            error.hasOwnProperty("diets") ||
-            error.hasOwnProperty("name") ||
-            error.hasOwnProperty("dish_summary")
-        ) {
-            e.preventDefault();
-            alert(
-                "Complete the form correctly, name and dish summary must be completed"
-            );
-        } else {
-            e.preventDefault();
-            alert("Recipe created successfully");
-            dispatch(createRecipe(input));
-        }
+        e.preventDefault();
+        setModalSubmit(true);
+        setTimeout(() => {
+            setModalSubmit(false);
+        }, 1000);
+        dispatch(createRecipe(input));
+        console.log("llega");
+        setInput({
+            name: "",
+            dish_summary: "",
+            health_score: "",
+            step_by_Step: "",
+            image: "",
+            diets: [],
+            select: "filter",
+        });
+        console.log("pasa");
     }
 
     function inputChange(e) {
@@ -103,6 +108,20 @@ const CreateRecipe = (props) => {
             <Link to={"/Home"}>
                 <button>Home</button>
             </Link>
+            {modalOpening ? (
+                <div>
+                    <Modals state="opening"></Modals>
+                </div>
+            ) : (
+                <div> </div>
+            )}
+            {modalSubmit ? (
+                <div>
+                    <Modals state="submit"></Modals>
+                </div>
+            ) : (
+                <div> </div>
+            )}
             <div style={divContainerForm}>
                 <form
                     action=""
@@ -116,6 +135,7 @@ const CreateRecipe = (props) => {
                             Name:{" "}
                         </label>
                         <input
+                            value={input.name}
                             type="text"
                             name="name"
                             placeholder="Required recipe name"
@@ -130,6 +150,7 @@ const CreateRecipe = (props) => {
                             Dish Summary:{" "}
                         </label>
                         <textarea
+                            value={input.dish_summary}
                             name="dish_summary"
                             id=""
                             cols="30"
@@ -149,6 +170,7 @@ const CreateRecipe = (props) => {
                             Health Score
                         </label>
                         <input
+                            value={input.health_score}
                             type="text"
                             name="health_score"
                             onChange={(e) => inputChange(e)}
@@ -166,6 +188,7 @@ const CreateRecipe = (props) => {
                             Step By Step:
                         </label>
                         <textarea
+                            value={input.step_by_Step}
                             name="step_by_Step"
                             id=""
                             cols="30"
@@ -179,6 +202,7 @@ const CreateRecipe = (props) => {
                             Image:{" "}
                         </label>
                         <input
+                            value={input.image}
                             type="text"
                             name="image"
                             placeholder="Link to image"
@@ -187,6 +211,7 @@ const CreateRecipe = (props) => {
                     </div>
                     <div style={div}>
                         <select
+                            value={input.select}
                             name="filter"
                             id="filter"
                             onChange={(e) => dietsSelect(e)}
@@ -225,7 +250,21 @@ const CreateRecipe = (props) => {
                             );
                         })}
                     </div>
-                    <div style={div}>
+                    <div
+                        style={div}
+                        className={
+                            input.name === "" ||
+                            input.dish_summary === "" ||
+                            error.hasOwnProperty("health_score") ||
+                            error.hasOwnProperty("step_by_Step") ||
+                            error.hasOwnProperty("image") ||
+                            error.hasOwnProperty("diets") ||
+                            error.hasOwnProperty("name") ||
+                            error.hasOwnProperty("dish_summary")
+                                ? s.opacity
+                                : ""
+                        }
+                    >
                         <button
                             type="submit"
                             disabled={
@@ -264,7 +303,7 @@ function validate(input) {
         errors.dish_summary = "Dish summary is required";
     }
     if (input.health_score) {
-        if (!/([0-9])/.test(input.health_score)) {
+        if (!/^\d+$/.test(input.health_score)) {
             errors.health_score = "Helath score is invalid, only numbers";
         }
         if (input.health_score < 0 || input.health_score > 100) {

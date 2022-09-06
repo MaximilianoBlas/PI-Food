@@ -24,19 +24,22 @@ input,textarea {
     color: #111;
     font-size: 14px;
     font-weight: bold;
-    text-transform: uppercase;
 }
-/* .input2 {
-    background-color: #ddd;
-    color: #111;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-} */
 
 .text {
     color: #ddd;
     font-size: 14px;
     font-weight: bold;
-    text-transform: uppercase;
+}
+
+.opacity {
+    opacity: 0.2;
+}
+
+.none {
+    display: none;
+}
+
+.display {
+    display: flex;
 }

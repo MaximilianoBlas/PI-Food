@@ -143,10 +143,8 @@ export const getRecipeDetail = (id) => {
 
 
 export const createRecipe = (input) => {
-    console.log("entra a la action");
   return async (dispatch) => {
     const res = await axios.post("/recipes", input)
-    console.log(res)
     dispatch({
       type: CREATE_RECIPE,
       payload: res.data,

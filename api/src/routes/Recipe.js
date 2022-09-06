@@ -222,7 +222,6 @@ try {
 })
 
 router.post("/", async (req,res, next) =>{
-    console.log("entro al post");
   let {name, dish_summary, health_score, step_by_Step, diets, image} = req.body;
   let  recipe = await Recipe.create({
     name,

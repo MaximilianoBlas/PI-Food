@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import style from "./Landing_page.module.css";
 
 export default class Landing extends Component {
-
   render() {
     return (
       <div className={style.divContainer}>

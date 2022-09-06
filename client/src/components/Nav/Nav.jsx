@@ -117,18 +117,6 @@ const Nav = () => {
                     </svg>
                 </button>
             </div>
-
-            {/* <label htmlFor="name"></label>
-                <input
-                    type="text"
-                    id="search"
-                    name="name"
-                    autoFocus
-                    onChange={(e) => changeSearch(e)}
-                />
-                <button type="submit" onClick={(e) => search(e)}>
-                    Search
-                </button> */}
             <div className={s.divConteinerSelector}>
                 <select
                     name="filter"

@@ -20,7 +20,7 @@ const formconteiner = {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
-    backgroundColor: "#111",
+    backgroundColor: "#602222",
     width: "50%",
     borderRadius: "50px",
     border: "1px solid black",
@@ -104,7 +104,7 @@ const CreateRecipe = (props) => {
     return (
         <div style={divContainer}>
             <Link to={"/Home"}>
-                <button>Home</button>
+                <button style={ {backgroundColor: "#602222"}}>Home</button>
             </Link>
             {modalOpening ? (
                 <div>

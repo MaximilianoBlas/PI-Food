@@ -8,7 +8,7 @@ const Recipe_Detail = (props) => {
   const dispatch = useDispatch();
 useEffect(() => {
   dispatch(getRecipeDetail(props.match.params.id));
-  return dispatch(recipeDetailOff());
+  return () => dispatch(recipeDetailOff());
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
 
@@ -27,7 +27,7 @@ const detail = useSelector((state) => state.recipeDetail);
 
   };
   const div = {
-    backgroundColor: "#111",
+    backgroundColor: "#b15c5c",
     width: "60%",
     borderRadius: "80px",
     border: "1px solid black",
@@ -36,6 +36,7 @@ const detail = useSelector((state) => state.recipeDetail);
     width: "80%",
     margin : "auto",
     color: "#ddd",
+    textDecoration: "none"
   };
   const width = {
     width: "80%",
@@ -45,7 +46,7 @@ const detail = useSelector((state) => state.recipeDetail);
   return (
       <div style={divContainer}>
           <Link to={"/Home"}>
-              <button>Home</button>
+              <button style={{ backgroundColor: "#b15c5c" }}>Home</button>
           </Link>
           <div style={divContainerRecipe}>
               <div style={div}>

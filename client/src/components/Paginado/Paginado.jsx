@@ -1,97 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { getAllRecipe, setCurrentPage } from "../../redux/actions";
 import style from "./Paginado.module.css";
 import FoodCard from "../Food_Card/Food_Card";
 import { connect } from "react-redux";
 import notFound from "../../images/NoEncontrado.jpg";
+import useMovePage from "../Helper/useMovePage"
 
 const navLinkStyle = {
     textDecoration: "none",
     color: "#3E3D3C",
 };
 
+
 const Paginado = (props) => {
-    const [numberPageRecipes, setnumberPageRecipes] = useState(1);
     const recipesPerPage = 9;
 
     let recipes;
     if (props.filterBoolean === false) {
-        if (props.order === "titleUpward") {
-            recipes = props.orderBy;
-        } else if (props.order === "titleFalling") {
-            recipes = props.orderBy;
-        } else if (props.order === "healthScoreUpward") {
-            recipes = props.orderBy;
-        } else if (props.order === "healthScoreFalling") {
-            recipes = props.orderBy;
-        } else if (props.order === "off") {
-            recipes = props.recipe;
-        }
+        props.order === "off"? recipes = props.recipe : recipes = props.orderBy
     } else {
-        recipes = props.filter;
-        if (props.order === "titleUpward") {
-            recipes = props.orderwithfilter;
-        } else if (props.order === "titleFalling") {
-            recipes = props.orderwithfilter;
-        } else if (props.order === "healthScoreUpward") {
-            recipes = props.orderwithfilter;
-        } else if (props.order === "healthScoreFalling") {
-            recipes = props.orderwithfilter;
-        } else if (props.order === "off") {
-            recipes = props.filter;
-        }
+        props.order === "off" ? recipes = props.filter : recipes = props.orderwithfilter
     }
 
     if (recipes.length === 1) {
         props.setCurrentPage(1);
     }
 
-    function start(e) {
-        props.setCurrentPage(1);
-    }
-
-    function finish(e) {
-        props.setCurrentPage(Math.ceil(recipes.length / recipesPerPage));
-    }
-    function next(e) {
-        if (props.currentPage < Math.ceil(recipes.length / recipesPerPage)) {
-            props.setCurrentPage(props.currentPage + 1);
-        }
-    }
-    function previus(e) {
-        if (props.currentPage > 1) {
-            props.setCurrentPage(props.currentPage - 1);
-        }
-    }
-    function positionOne(e) {
-        props.setCurrentPage(numberPageRecipes);
-    }
-    function positionTwo(e) {
-        if (props.currentPage < Math.ceil(recipes.length / recipesPerPage)) {
-            props.setCurrentPage(numberPageRecipes + 1);
-        }
-    }
-    function positionThree(e) {
-        if (props.currentPage < Math.ceil(recipes.length / recipesPerPage)) {
-            props.setCurrentPage(numberPageRecipes + 2);
-        }
-    }
-
-    function number(e) {
-        setnumberPageRecipes(props.currentPage - 1);
-    }
-    if (
-        (props.currentPage === 1 || props.currentPage === 2) &&
-        numberPageRecipes !== 1
-    ) {
-        setnumberPageRecipes(1);
-    } else if (
-        numberPageRecipes !== props.currentPage - 1 &&
-        props.currentPage > 2
-    ) {
-        number();
-    }
+    const {
+        start,
+        finish,
+        previus,
+        next,
+        positionOne,
+        positionTwo,
+        positionThree,
+        numberPageRecipes,
+    } = useMovePage();
 
     let newRecipes = [],
         newRecipePerPage;
@@ -126,22 +71,44 @@ const Paginado = (props) => {
                     Previus
                 </button>
 
-                <button type="submit" onClick={(e) => positionOne(e)}>
+                <button
+                    type="submit"
+                    onClick={(e) => positionOne()}
+                >
                     {numberPageRecipes}
                 </button>
 
-                <button type="submit" onClick={(e) => positionTwo(e)}>
+                <button
+                    type="submit"
+                    onClick={(e) =>
+                        positionTwo(recipes, recipesPerPage)
+                    }
+                >
                     {numberPageRecipes + 1}
                 </button>
 
-                <button type="submit" onClick={(e) => positionThree(e)}>
+                <button
+                    type="submit"
+                    onClick={(e) =>
+                        positionThree(
+                            recipes,
+                            recipesPerPage
+                        )
+                    }
+                >
                     {numberPageRecipes + 2}
                 </button>
 
-                <button type="submit" onClick={(e) => next(e)}>
+                <button
+                    type="submit"
+                    onClick={(e) => next(recipes, recipesPerPage)}
+                >
                     Next
                 </button>
-                <button type="submit" onClick={(e) => finish(e)}>
+                <button
+                    type="submit"
+                    onClick={(e) => finish(recipes, recipesPerPage)}
+                >
                     Finish
                 </button>
             </div>

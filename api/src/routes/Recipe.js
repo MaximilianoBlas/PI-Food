@@ -1,4 +1,4 @@
-const { Router, query } = require("express");
+const { Router } = require("express");
 const {Recipe, Diet} = require("../db")
 const axios =require("axios")
 const { Op } = require("sequelize"); 
@@ -9,6 +9,7 @@ router.get("/:id", async (req, res,next) => {
   const {id} = req.params
   if(isNaN(id)){
     Recipe.findByPk(id, {
+        
       include: [
         {
           model: Diet,

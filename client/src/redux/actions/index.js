@@ -15,150 +15,145 @@ export const GET_ALL_RECIPE_OFF = "GET_ALL_RECIPE_OFF";
 export const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 export const RECIPE_DETAIL_OFF = "RECIPE_DETAIL_OFF";
 
-
-let currentName
+let currentName;
 export const getAllRecipe = (name) => {
-  if (!name) {
-    if (currentName) {
-      return async (dispatch) => {
-        const res = await axios.get(
-          `/recipes?name=${currentName}`
-        );
-        dispatch({
-          type: GET_ALL_RECIPE,
+    if (!name) {
+        if (currentName) {
+            return async (dispatch) => {
+                const res = await axios.get(`/recipes?name=${currentName}`);
+                dispatch({
+                    type: GET_ALL_RECIPE,
 
-          payload:
-            typeof res.data === "object"
-              ? res.data
-              : [
-                  {
-                    name: "Recipe not found",
-                    image: notFound,
-                    dish_summary: "Recipe not found",
-                    diets: [undefined],
-                  },
-                ],
-        });
-      };
+                    payload:
+                        typeof res.data === "object"
+                            ? res.data
+                            : [
+                                  {
+                                      name: "Recipe not found",
+                                      image: notFound,
+                                      dish_summary: "Recipe not found",
+                                      diets: [undefined],
+                                  },
+                              ],
+                });
+            };
+        }
+
+        return async (dispatch) => {
+            const res = await axios.get("/recipes");
+            dispatch({
+                type: GET_ALL_RECIPE,
+                payload: res.data,
+                name: "defect",
+            });
+        };
+    } else {
+        if (name === "reload") {
+            currentName = undefined;
+            return async (dispatch) => {
+                const res = await axios.get("/recipes");
+                dispatch({
+                    type: GET_ALL_RECIPE,
+                    payload: res.data,
+                    name: "defect",
+                });
+            };
+        } else {
+            currentName = name;
+            return async (dispatch) => {
+                const res = await axios.get(`/recipes?name=${name}`);
+                dispatch({
+                    type: GET_ALL_RECIPE,
+
+                    payload: typeof res.data.length
+                        ? res.data
+                        : [
+                              {
+                                  name: "Recipe not found",
+                                  image: notFound,
+                                  dish_summary: "Recipe not found",
+                                  diets: [],
+                              },
+                          ],
+                });
+            };
+        }
     }
-      
-    return async (dispatch) => {
-      const res = await axios.get("/recipes");
-      dispatch({
-        type: GET_ALL_RECIPE,
-        payload: res.data,
-        name:"defect"
-      });
+};
+
+export const getAllRecipeOff = () => {
+    return {
+        type: GET_ALL_RECIPE_OFF,
     };
-  }else{
-    if (name === "reload") {
-      currentName = undefined
-      return async (dispatch) => {
-        const res = await axios.get("/recipes");
-        dispatch({
-          type: GET_ALL_RECIPE,
-          payload: res.data,
-          name: "defect"
-        });
-      };
-    }else{
-      currentName = name;
-      return async (dispatch) => {
-        const res = await axios.get(`/recipes?name=${name}`);
-        dispatch({
-          type: GET_ALL_RECIPE,
-  
-          payload: typeof res.data.length
-            ? res.data
-            : [
-                {
-                  name: "Recipe not found",
-                  image: notFound,
-                  dish_summary: "Recipe not found",
-                  diets: []
-                },
-              ],
-        });
-      };
-    }
-  }
-}
-
-export const getAllRecipeOff = () =>{
-  return {
-    type: GET_ALL_RECIPE_OFF,
-  };
-}
+};
 
 export const filterRecipe = (payload) => {
-  return {
-    type: FILTER_RECIPE, 
-    payload
-  }
+    return {
+        type: FILTER_RECIPE,
+        payload,
+    };
 };
 
 export const orderOff = () => {
-  return {
-    type: ORDER_OFF,
-  }
-}
+    return {
+        type: ORDER_OFF,
+    };
+};
 
 export const orderByTitleUpward = () => {
-  return {
-    type: ORDER_BY_TITLE_UPWARD,
-  };
+    return {
+        type: ORDER_BY_TITLE_UPWARD,
+    };
 };
 export const orderByTitleFalling = () => {
-  return {
-    type: ORDER_BY_TITLE_FALLING,
-  };
+    return {
+        type: ORDER_BY_TITLE_FALLING,
+    };
 };
 
 export const orderByHealthScoreUpward = () => {
-  return {
-    type: ORDER_BY_HEALTHSCORE_UPWARD,
-  };
+    return {
+        type: ORDER_BY_HEALTHSCORE_UPWARD,
+    };
 };
 export const orderByHealthScoreFalling = () => {
-  return {
-    type: ORDER_BY_HEALTHSCORE_FALLING,
-  };
+    return {
+        type: ORDER_BY_HEALTHSCORE_FALLING,
+    };
 };
 
 export const filterOff = () => {
-  return {
-    type: FILTER_OFF,
-  };
+    return {
+        type: FILTER_OFF,
+    };
 };
 
 export const getRecipeDetail = (id) => {
-
-  return async (dispatch) => {
-    const res = await axios.get(`/recipes/${id}`);
-    dispatch({
-      type: DETAIL_RECIPE,
-      payload: res.data,
-    });
-  };
-}
-
+    return async (dispatch) => {
+        const res = await axios.get(`/recipes/${id}`);
+        dispatch({
+            type: DETAIL_RECIPE,
+            payload: res.data,
+        });
+    };
+};
 
 export const createRecipe = (input) => {
-  return async (dispatch) => {
-    const res = await axios.post("/recipes", input)
-    dispatch({
-      type: CREATE_RECIPE,
-      payload: res.data,
-    })
-  }
-}
+    return async (dispatch) => {
+        const res = await axios.post("/recipes", input);
+        dispatch({
+            type: CREATE_RECIPE,
+            payload: res.data,
+        });
+    };
+};
 
 export const setCurrentPage = (page) => {
-  return {
-    type: SET_CURRENT_PAGE,
-    payload: page,
-  };
-}
+    return {
+        type: SET_CURRENT_PAGE,
+        payload: page,
+    };
+};
 
 export const recipeDetailOff = () => {
     return {
